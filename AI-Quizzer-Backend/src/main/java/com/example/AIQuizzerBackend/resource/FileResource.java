@@ -21,7 +21,7 @@ import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 @RestController
-@RequestMapping("/note-upload")
+@RequestMapping("/notes")
 public class FileResource {
     private static final String DIRECTORY = System.getProperty("user.home") + "/Downloads";
 
@@ -38,7 +38,7 @@ public class FileResource {
     }
 
     @GetMapping("/download/{filename}")
-    public ResponseEntity<Resource> fileDownload(@RequestParam("filename") String filename) throws IOException {
+    public ResponseEntity<Resource> fileDownload(@PathVariable("filename") String filename) throws IOException {
         Path filePath = get(DIRECTORY).toAbsolutePath().normalize().resolve(filename);
         if(!Files.exists(filePath)){
             throw new FileNotFoundException(filename + " was not found");
