@@ -14,7 +14,8 @@ export class NotesUploadComponent {
     percent: 0,
     status: '',
     requestType: ''
-  }
+  };
+  public fileType: string = '';
 
   constructor(private fileService: FileService){}
   
@@ -22,22 +23,26 @@ export class NotesUploadComponent {
     const{target} = e;
     let fileList = (target as HTMLInputElement).files;
     const formData = new FormData();
-    for (const file of fileList!) { formData.append('files', file, file.name); }
+    for (const file of fileList!) { 
+      this.fileType = file.type;
+      formData.append('files', file, file.name); 
+    }
     this.fileService.upload(formData).subscribe(
       event=>{
-        console.log(event);
+        console.log("File potential: " + event);
         this.reportProgress(event);
       },
       (error: HttpErrorResponse) =>{
         console.log(error);
       }
-    )
+    );
+
   }
 
   onDownload(filename: string): void{
     this.fileService.download(filename).subscribe(
       event=>{
-        console.log(event);
+        //console.log(event);
         this.reportProgress(event)
       },
       (error: HttpErrorResponse)=>{
@@ -55,7 +60,7 @@ export class NotesUploadComponent {
         this.updateStatus(httpEvent.loaded, httpEvent.total!, "Downloading... ");
         break;
       case HttpEventType.ResponseHeader:
-        console.log("Event returned ", httpEvent);
+        //console.log("Event returned ", httpEvent);
         break;
       case HttpEventType.Response:
         if(httpEvent.body instanceof Array){
@@ -69,7 +74,7 @@ export class NotesUploadComponent {
         this.fileStatus.status = 'done'
         break;
       default:
-        console.log(httpEvent);
+        //console.log(httpEvent);
         break;
     }
   }
