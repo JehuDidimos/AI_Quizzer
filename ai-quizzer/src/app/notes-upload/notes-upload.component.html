@@ -17,14 +17,14 @@
           <fieldset>
             <div class="form-group">
               <div>
-                <input type="file" (change)="onUploadFiles($event)" name="files"  class="form-control" />
+                <input type="file" (change)="onUploadFiles($event)"  name="files"  class="form-control" />
               </div>
             </div>
           </fieldset>
         </form>
         
         <br>  
-        <app-notes-view [fileType]="this.fileType"></app-notes-view>
+        <app-notes-view #viewFileReference></app-notes-view>
         <br>  
         
         <div *ngIf="fileNames.length > 0" class="js-upload-finished">

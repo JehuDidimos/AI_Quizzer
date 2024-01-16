@@ -1,1 +1,4 @@
-<p>{{this.fileType}}</p>
+<img *ngIf="this.fileType.includes('image')" [src]="this.imgUrl">
+
+<iframe *ngIf="this.fileType.includes('pdf')" [src]="this.pdfUrl"></iframe>
+

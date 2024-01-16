@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FileService } from '../file.service';
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { ViewChild } from '@angular/core';
+import { NotesViewComponent } from '../notes-view/notes-view.component';
 
 @Component({
   selector: 'app-notes-upload',
@@ -16,14 +18,17 @@ export class NotesUploadComponent {
     requestType: ''
   };
   public fileType: string = '';
+  public fileList!: FileList | null;
+
+  @ViewChild('viewFileReference') viewFile!: NotesViewComponent;
 
   constructor(private fileService: FileService){}
   
   onUploadFiles(e: Event): void{
     const{target} = e;
-    let fileList = (target as HTMLInputElement).files;
+    this.fileList = (target as HTMLInputElement).files;
     const formData = new FormData();
-    for (const file of fileList!) { 
+    for (const file of this.fileList!) { 
       this.fileType = file.type;
       formData.append('files', file, file.name); 
     }
@@ -36,6 +41,7 @@ export class NotesUploadComponent {
         console.log(error);
       }
     );
+    this.viewFile.onTrigger(this.fileList);
 
   }
 
