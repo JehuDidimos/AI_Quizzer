@@ -3,9 +3,9 @@ import { FileUpload } from './components/FileUpload';
 
 function App() {
   return (
-    <>
+    <div className="class-container">
       <FileUpload/>
-    </>
+    </div>
   )
 }
 
